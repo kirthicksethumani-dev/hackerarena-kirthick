@@ -1,1 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>SakhiLens AI</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="logo">
+      ✦ SakhiLens <span>AI</span>
+    </div>
+
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#how">How It Works</a>
+      <a href="#features">Features</a>
+    </nav>
+
+    <select id="language">
+      <option value="en">English</option>
+      <option value="ta">தமிழ்</option>
+      <option value="hi">हिन्दी</option>
+      <option value="te">తెలుగు</option>
+      <option value="ml">മലയാളം</option>
+      <option value="kn">ಕನ್ನಡ</option>
+    </select>
+  </header>
+
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+
+    <div class="hero-content">
+
+      <p class="tag">AI FOR WOMEN • HACKARENA</p>
+
+      <h1>
+        Government schemes,
+        <span>made simple.</span>
+      </h1>
+
+      <p>
+        Upload a government scheme poster.
+        SakhiLens AI explains the scheme,
+        checks your eligibility and tells you
+        what to do next.
+      </p>
+
+      <a href="#analyzer" class="btn">
+        Try SakhiLens →
+      </a>
+
+    </div>
+
+    <div class="hero-card">
+
+      <div class="phone">
+
+        <div class="phone-screen">
+
+          <small>SAKHILENS AI</small>
+
+          <h3>What does this scheme mean?</h3>
+
+          <div class="message ai">
+            இந்த திட்டம் பெண்களுக்கு
+            திறன் பயிற்சி வழங்குகிறது.
+          </div>
+
+          <div class="message user">
+            நான் தகுதியானவரா?
+          </div>
+
+          <div class="message ai">
+            சில தகவல்கள் தேவை.
+            உங்கள் வயதை சொல்லுங்கள்.
+          </div>
+
+          <button class="voice">
+            🎙️ Tap to speak
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ANALYZER -->
+  <section class="analyzer" id="analyzer">
+
+    <div class="section-title">
+
+      <p class="tag">LIVE DEMO</p>
+
+      <h2>Upload a scheme poster</h2>
+
+      <p>
+        Upload an image and choose your preferred language.
+      </p>
+
+    </div>
+
+
+    <div class="analyzer-grid">
+
+      <!-- UPLOAD -->
+      <div class="panel">
+
+        <div class="upload-box" id="uploadBox">
+
+          <input
+            type="file"
+            id="fileInput"
+            accept="image/*,.pdf"
+          >
+
+          <div id="uploadMessage">
+
+            <div class="upload-icon">↑</div>
+
+            <h3>
+              Upload Scheme Poster
+            </h3>
+
+            <p>
+              Click or drag your poster here
+            </p>
+
+            <small>
+              JPG, PNG or PDF
+            </small>
+
+          </div>
+
+
+          <div id="previewContainer" class="hidden">
+
+            <img
+              id="preview"
+              alt="Scheme poster preview"
+            >
+
+            <p id="fileName"></p>
+
+          </div>
+
+        </div>
+
+
+        <div class="buttons">
+
+          <button
+            class="secondary"
+            id="sampleBtn"
+          >
+            Use Sample
+          </button>
+
+          <button
+            class="primary"
+            id="analyzeBtn"
+          >
+            Analyze with AI ✦
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- RESULT -->
+      <div class="panel result-panel">
+
+        <div class="result-header">
+
+          <span class="status"></span>
+
+          <span id="statusText">
+            Waiting for poster
+          </span>
+
+        </div>
+
+
+        <div id="result">
+
+          <div class="empty">
+
+            <div class="empty-icon">
+              ✦
+            </div>
+
+            <h3>
+              Your result will appear here
+            </h3>
+
+            <p>
+              The AI will explain the scheme,
+              benefits, eligibility and next steps.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- HOW IT WORKS -->
+  <section class="how" id="how">
+
+    <p class="tag">HOW IT WORKS</p>
+
+    <h2>
+      From confusing poster
+      to confident action.
+    </h2>
+
+    <div class="steps">
+
+      <div class="step">
+        <span>01</span>
+        <h3>Upload</h3>
+        <p>
+          Take a photo of a government
+          scheme poster.
+        </p>
+      </div>
+
+      <div class="step">
+        <span>02</span>
+        <h3>Understand</h3>
+        <p>
+          AI extracts and explains
+          the scheme.
+        </p>
+      </div>
+
+      <div class="step">
+        <span>03</span>
+        <h3>Check</h3>
+        <p>
+          Answer simple questions
+          to check eligibility.
+        </p>
+      </div>
+
+      <div class="step">
+        <span>04</span>
+        <h3>Apply</h3>
+        <p>
+          Get documents and
+          next steps.
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+
+    <div>
+
+      <p class="tag">
+        KEY FEATURES
+      </p>
+
+      <h2>
+        Built for first-time
+        digital users.
+      </h2>
+
+      <div class="feature-list">
+
+        <div>
+          <b>🗣️ Local Language</b>
+          <p>
+            Understand schemes in
+            your preferred language.
+          </p>
+        </div>
+
+        <div>
+          <b>📋 Eligibility Checker</b>
+          <p>
+            Compare your information
+            with scheme requirements.
+          </p>
+        </div>
+
+        <div>
+          <b>📄 Document Checklist</b>
+          <p>
+            Know which documents
+            may be required.
+          </p>
+        </div>
+
+        <div>
+          <b>🛡️ Safety Warning</b>
+          <p>
+            Warn users about suspicious
+            links or payment requests.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="score-card">
+
+      <p>PERSONALIZED CHECK</p>
+
+      <h3>
+        🟢 Likely Eligible
+      </h3>
+
+      <div class="progress">
+        <div></div>
+      </div>
+
+      <div class="check">
+        <span>Age requirement</span>
+        <b>✓ Match</b>
+      </div>
+
+      <div class="check">
+        <span>State requirement</span>
+        <b>✓ Match</b>
+      </div>
+
+      <div class="check">
+        <span>Income requirement</span>
+        <b>✓ Match</b>
+      </div>
+
+      <div class="check">
+        <span>Supporting document</span>
+        <b class="warning">! Verify</b>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer>
+
+    <b>
+      ✦ SakhiLens AI
+    </b>
+
+    <span>
+      HackArena Project • Kirthick
+    </span>
+
+  </footer>
+
+
+  <script src="script.js"></script>
+
+</body>
+</html>
