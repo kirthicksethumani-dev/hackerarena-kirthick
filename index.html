@@ -1,384 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>SakhiLens AI</title>
-
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchemeGuide AI | Smart Govt Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Generative AI SDK -->
+    <script type="importmap">
+      {
+        "imports": {
+          "@google/generative-ai": "https://esm.run/@google/generative-ai"
+        }
+      }
+    </script>
 </head>
+<body class="bg-slate-50 text-slate-900 font-sans">
 
-<body>
-
-  <!-- NAVBAR -->
-  <header class="navbar">
-    <div class="logo">
-      ✦ SakhiLens <span>AI</span>
+    <!-- API Key Modal (For Security on GitHub Pages) -->
+    <div id="apiKeyModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl">
+            <h2 class="text-2xl font-bold mb-4 flex items-center gap-2">
+                <i data-lucide="key-round" class="text-pink-600"></i> Setup AI Access
+            </h2>
+            <p class="text-slate-600 mb-6 text-sm">To keep this app secure on GitHub Pages, please enter your <span class="font-bold">Gemini API Key</span>. It is stored locally in your browser and never sent to our servers.</p>
+            <input type="password" id="apiKeyInput" placeholder="Enter Gemini API Key..." class="w-full p-4 border-2 border-slate-100 rounded-xl mb-4 focus:border-pink-500 outline-none transition-all">
+            <button onclick="saveApiKey()" class="w-full bg-pink-600 text-white font-bold py-4 rounded-xl hover:bg-pink-700 transition-all">Start Application</button>
+            <p class="mt-4 text-center text-xs text-slate-400">Get a key for free at <a href="https://aistudio.google.com/" target="_blank" class="underline text-pink-500">Google AI Studio</a></p>
+        </div>
     </div>
 
-    <nav>
-      <a href="#home">Home</a>
-      <a href="#how">How It Works</a>
-      <a href="#features">Features</a>
+    <!-- Header -->
+    <nav class="bg-white border-b sticky top-0 z-40 px-6 py-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="bg-pink-600 p-2 rounded-lg text-white">
+                    <i data-lucide="layout-grid" size="24"></i>
+                </div>
+                <h1 class="text-2xl font-black tracking-tighter text-slate-800">SchemeGuide <span class="text-pink-600 font-medium">AI</span></h1>
+            </div>
+            <div class="flex items-center gap-4">
+                <select id="langSelect" class="bg-slate-100 border-none rounded-lg px-4 py-2 font-bold text-sm outline-none focus:ring-2 ring-pink-500 transition-all">
+                    <option value="English">English</option>
+                    <option value="Tamil">தமிழ் (Tamil)</option>
+                    <option value="Hindi">हिन्दी (Hindi)</option>
+                    <option value="Telugu">తెలుగు (Telugu)</option>
+                    <option value="Malayalam">മലയാളം (Malayalam)</option>
+                    <option value="Kannada">ಕನ್ನಡ (Kannada)</option>
+                </select>
+                <button onclick="clearAll()" class="p-2 hover:bg-red-50 text-slate-400 hover:text-red-600 rounded-lg transition-all" title="Reset">
+                    <i data-lucide="refresh-cw" size="20"></i>
+                </button>
+            </div>
+        </div>
     </nav>
 
-    <select id="language">
-      <option value="en">English</option>
-      <option value="ta">தமிழ்</option>
-      <option value="hi">हिन्दी</option>
-      <option value="te">తెలుగు</option>
-      <option value="ml">മലയാളം</option>
-      <option value="kn">ಕನ್ನಡ</option>
-    </select>
-  </header>
+    <main class="max-w-6xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Left Column: Upload & Input -->
+        <div class="lg:col-span-5 space-y-6">
+            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm overflow-hidden relative">
+                <h2 class="text-xl font-bold mb-4">Upload Scheme Poster</h2>
+                <label id="dropZone" class="flex flex-col items-center justify-center border-4 border-dashed border-slate-100 rounded-2xl p-10 hover:border-pink-300 hover:bg-pink-50/30 transition-all cursor-pointer group">
+                    <div class="bg-pink-100 p-4 rounded-full text-pink-600 mb-4 group-hover:scale-110 transition-transform">
+                        <i data-lucide="cloud-upload" size="32"></i>
+                    </div>
+                    <span class="text-slate-600 font-medium">Drag and drop or Click to upload</span>
+                    <span class="text-slate-400 text-xs mt-2">Supports JPG, PNG (Max 5MB)</span>
+                    <input type="file" id="fileInput" class="hidden" accept="image/*">
+                </label>
 
-
-  <!-- HERO -->
-  <section class="hero" id="home">
-
-    <div class="hero-content">
-
-      <p class="tag">AI FOR WOMEN • HACKARENA</p>
-
-      <h1>
-        Government schemes,
-        <span>made simple.</span>
-      </h1>
-
-      <p>
-        Upload a government scheme poster.
-        SakhiLens AI explains the scheme,
-        checks your eligibility and tells you
-        what to do next.
-      </p>
-
-      <a href="#analyzer" class="btn">
-        Try SakhiLens →
-      </a>
-
-    </div>
-
-    <div class="hero-card">
-
-      <div class="phone">
-
-        <div class="phone-screen">
-
-          <small>SAKHILENS AI</small>
-
-          <h3>What does this scheme mean?</h3>
-
-          <div class="message ai">
-            இந்த திட்டம் பெண்களுக்கு
-            திறன் பயிற்சி வழங்குகிறது.
-          </div>
-
-          <div class="message user">
-            நான் தகுதியானவரா?
-          </div>
-
-          <div class="message ai">
-            சில தகவல்கள் தேவை.
-            உங்கள் வயதை சொல்லுங்கள்.
-          </div>
-
-          <button class="voice">
-            🎙️ Tap to speak
-          </button>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- ANALYZER -->
-  <section class="analyzer" id="analyzer">
-
-    <div class="section-title">
-
-      <p class="tag">LIVE DEMO</p>
-
-      <h2>Upload a scheme poster</h2>
-
-      <p>
-        Upload an image and choose your preferred language.
-      </p>
-
-    </div>
-
-
-    <div class="analyzer-grid">
-
-      <!-- UPLOAD -->
-      <div class="panel">
-
-        <div class="upload-box" id="uploadBox">
-
-          <input
-            type="file"
-            id="fileInput"
-            accept="image/*,.pdf"
-          >
-
-          <div id="uploadMessage">
-
-            <div class="upload-icon">↑</div>
-
-            <h3>
-              Upload Scheme Poster
-            </h3>
-
-            <p>
-              Click or drag your poster here
-            </p>
-
-            <small>
-              JPG, PNG or PDF
-            </small>
-
-          </div>
-
-
-          <div id="previewContainer" class="hidden">
-
-            <img
-              id="preview"
-              alt="Scheme poster preview"
-            >
-
-            <p id="fileName"></p>
-
-          </div>
-
-        </div>
-
-
-        <div class="buttons">
-
-          <button
-            class="secondary"
-            id="sampleBtn"
-          >
-            Use Sample
-          </button>
-
-          <button
-            class="primary"
-            id="analyzeBtn"
-          >
-            Analyze with AI ✦
-          </button>
-
-        </div>
-
-      </div>
-
-
-      <!-- RESULT -->
-      <div class="panel result-panel">
-
-        <div class="result-header">
-
-          <span class="status"></span>
-
-          <span id="statusText">
-            Waiting for poster
-          </span>
-
-        </div>
-
-
-        <div id="result">
-
-          <div class="empty">
-
-            <div class="empty-icon">
-              ✦
+                <div id="previewContainer" class="hidden mt-6">
+                    <p class="text-xs font-bold text-slate-400 uppercase mb-2">Image Preview</p>
+                    <img id="imagePreview" src="" class="w-full rounded-xl border border-slate-200 shadow-inner max-h-64 object-contain bg-slate-50">
+                    <button id="analyzeBtn" class="w-full mt-6 bg-slate-900 text-white font-bold py-5 rounded-2xl flex items-center justify-center gap-2 hover:bg-pink-600 transition-all shadow-xl shadow-pink-100">
+                        <i data-lucide="sparkles" size="20"></i> Analyze Scheme
+                    </button>
+                </div>
             </div>
 
-            <h3>
-              Your result will appear here
-            </h3>
-
-            <p>
-              The AI will explain the scheme,
-              benefits, eligibility and next steps.
-            </p>
-
-          </div>
-
+            <!-- Loader State -->
+            <div id="loader" class="hidden bg-white p-12 rounded-3xl border border-slate-200 text-center animate-pulse">
+                <div class="inline-block animate-spin text-pink-600 mb-4">
+                    <i data-lucide="loader-2" size="48"></i>
+                </div>
+                <h3 class="text-xl font-bold">AI is reading the poster...</h3>
+                <p class="text-slate-500">Extracting benefits and eligibility rules.</p>
+            </div>
         </div>
 
-      </div>
+        <!-- Right Column: Results -->
+        <div class="lg:col-span-7">
+            <div id="resultPlaceholder" class="h-full flex flex-col items-center justify-center text-center p-12 border-2 border-dashed border-slate-200 rounded-[3rem] opacity-50">
+                <i data-lucide="file-text" size="64" class="text-slate-300 mb-4"></i>
+                <h3 class="text-xl font-medium text-slate-400">Analysis results will appear here after upload</h3>
+            </div>
 
-    </div>
+            <div id="resultContainer" class="hidden space-y-6 pb-20">
+                <!-- Main Header Card -->
+                <div class="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4">
+                        <span id="govDept" class="bg-pink-50 text-pink-600 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-pink-100">Department Name</span>
+                    </div>
+                    <h2 id="schemeName" class="text-3xl font-black text-slate-900 mb-4 leading-tight">Scheme Name</h2>
+                    <p id="purposeText" class="text-lg text-slate-600 leading-relaxed">Purpose description goes here.</p>
+                </div>
 
-  </section>
+                <!-- Split Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+                        <h4 class="font-bold flex items-center gap-2 text-pink-600 mb-4"><i data-lucide="gift"></i> Benefits</h4>
+                        <ul id="benefitsList" class="space-y-3 text-sm text-slate-700"></ul>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+                        <h4 class="font-bold flex items-center gap-2 text-pink-600 mb-4"><i data-lucide="file-check"></i> Documents Needed</h4>
+                        <ul id="docsList" class="space-y-3 text-sm text-slate-700"></ul>
+                    </div>
+                </div>
 
+                <!-- Eligibility Checker -->
+                <div class="bg-slate-900 text-white p-8 rounded-[2.5rem] shadow-2xl relative overflow-hidden">
+                    <div class="relative z-10">
+                        <h3 class="text-xl font-bold mb-6 flex items-center gap-2 italic">
+                            <i data-lucide="user-check"></i> Smart Eligibility Checker
+                        </h3>
+                        <div id="eligibilityWizard" class="space-y-6">
+                            <!-- Questions appear here -->
+                        </div>
+                        <div id="eligibilityResult" class="hidden mt-6 p-6 rounded-2xl bg-white/10 border border-white/20 text-center animate-in fade-in duration-700">
+                            <!-- Result text -->
+                        </div>
+                    </div>
+                    <div class="absolute -right-20 -bottom-20 w-64 h-64 bg-pink-600/20 rounded-full blur-[100px]"></div>
+                </div>
 
-  <!-- HOW IT WORKS -->
-  <section class="how" id="how">
-
-    <p class="tag">HOW IT WORKS</p>
-
-    <h2>
-      From confusing poster
-      to confident action.
-    </h2>
-
-    <div class="steps">
-
-      <div class="step">
-        <span>01</span>
-        <h3>Upload</h3>
-        <p>
-          Take a photo of a government
-          scheme poster.
-        </p>
-      </div>
-
-      <div class="step">
-        <span>02</span>
-        <h3>Understand</h3>
-        <p>
-          AI extracts and explains
-          the scheme.
-        </p>
-      </div>
-
-      <div class="step">
-        <span>03</span>
-        <h3>Check</h3>
-        <p>
-          Answer simple questions
-          to check eligibility.
-        </p>
-      </div>
-
-      <div class="step">
-        <span>04</span>
-        <h3>Apply</h3>
-        <p>
-          Get documents and
-          next steps.
-        </p>
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- FEATURES -->
-  <section class="features" id="features">
-
-    <div>
-
-      <p class="tag">
-        KEY FEATURES
-      </p>
-
-      <h2>
-        Built for first-time
-        digital users.
-      </h2>
-
-      <div class="feature-list">
-
-        <div>
-          <b>🗣️ Local Language</b>
-          <p>
-            Understand schemes in
-            your preferred language.
-          </p>
+                <!-- Info Section -->
+                <div class="bg-amber-50 border-2 border-amber-100 p-6 rounded-3xl">
+                    <h4 class="font-bold text-amber-800 flex items-center gap-2 mb-2"><i data-lucide="info"></i> Official Information</h4>
+                    <p id="officialSource" class="text-amber-900 text-sm mb-4">Official source info...</p>
+                    <div class="p-4 bg-white/50 rounded-xl text-[11px] text-amber-700 border border-amber-200 leading-relaxed">
+                        <strong>Disclaimer:</strong> SchemeGuide AI uses Artificial Intelligence to simplify posters. This is <u>not</u> an official government portal. Eligibility results are estimates. Always verify with the official website or nearest Seva Kendra.
+                    </div>
+                </div>
+            </div>
         </div>
+    </main>
 
-        <div>
-          <b>📋 Eligibility Checker</b>
-          <p>
-            Compare your information
-            with scheme requirements.
-          </p>
-        </div>
+    <footer class="max-w-6xl mx-auto px-6 py-12 text-center text-slate-400 text-sm border-t mt-12">
+        <p>&copy; 2024 SchemeGuide AI • Developed for HACKARENA-KIRTHICK</p>
+    </footer>
 
-        <div>
-          <b>📄 Document Checklist</b>
-          <p>
-            Know which documents
-            may be required.
-          </p>
-        </div>
-
-        <div>
-          <b>🛡️ Safety Warning</b>
-          <p>
-            Warn users about suspicious
-            links or payment requests.
-          </p>
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="score-card">
-
-      <p>PERSONALIZED CHECK</p>
-
-      <h3>
-        🟢 Likely Eligible
-      </h3>
-
-      <div class="progress">
-        <div></div>
-      </div>
-
-      <div class="check">
-        <span>Age requirement</span>
-        <b>✓ Match</b>
-      </div>
-
-      <div class="check">
-        <span>State requirement</span>
-        <b>✓ Match</b>
-      </div>
-
-      <div class="check">
-        <span>Income requirement</span>
-        <b>✓ Match</b>
-      </div>
-
-      <div class="check">
-        <span>Supporting document</span>
-        <b class="warning">! Verify</b>
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- FOOTER -->
-  <footer>
-
-    <b>
-      ✦ SakhiLens AI
-    </b>
-
-    <span>
-      HackArena Project • Kirthick
-    </span>
-
-  </footer>
-
-
-  <script src="script.js"></script>
-
+    <script type="module" src="script.js"></script>
 </body>
 </html>
